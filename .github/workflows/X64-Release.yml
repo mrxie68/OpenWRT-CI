@@ -1,5 +1,5 @@
 #CI项目名
-name: X64-Lede-Release
+name: X64-Luci-Release
 
 on:
   #自动编译：每天早上4点
@@ -30,6 +30,6 @@ jobs:
       #默认地址
       WRT_IP: 10.10.10.28
       #默认源码 coolsnowwolf/lede/tree/20230609
-      WRT_URL: https://github.com/coolsnowwolf/lede/tree/20230609
+      WRT_URL: https://github.com/openwrt/luci.git
       #默认分支
-      WRT_BRANCH: master
+      WRT_BRANCH: openwrt-23.05
