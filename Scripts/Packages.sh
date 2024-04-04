@@ -20,18 +20,36 @@ UPDATE_PACKAGE() {
 	fi
 }
 
-UPDATE_PACKAGE "design" "gngpp/luci-theme-design" "$([[ $WRT_URL == *"lede"* ]] && echo "main" || echo "js")"
-UPDATE_PACKAGE "design-config" "gngpp/luci-app-design-config" "master"
+# UPDATE_PACKAGE "design" "gngpp/luci-theme-design" "$([[ $WRT_URL == *"lede"* ]] && echo "main" || echo "js")"
+# UPDATE_PACKAGE "design-config" "gngpp/luci-app-design-config" "master"
 UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "$([[ $WRT_URL == *"lede"* ]] && echo "18.06" || echo "master")"
 UPDATE_PACKAGE "argon-config" "jerrykuku/luci-app-argon-config" "$([[ $WRT_URL == *"lede"* ]] && echo "18.06" || echo "master")"
 
-UPDATE_PACKAGE "helloworld" "fw876/helloworld" "master"
+#passwall,openwrt
+UPDATE_PACKAGE "passwall" "xiaorouji/openwrt-passwall" "luci-smartdns-dev"
+UPDATE_PACKAGE "passwall-packages" "xiaorouji/openwrt-passwall-packages" "main"
+# UPDATE_PACKAGE "helloworld" "fw876/helloworld" "master"
 UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev"
 
 if [[ $WRT_URL == *"immortalwrt"* ]]; then
 	#UPDATE_PACKAGE "homeproxy" "muink/homeproxy" "dev"
 	UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
 fi
+
+#MosDNS
+UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5"
+UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
+
+#lucky
+#UPDATE_PACKAGE "lucky" "sirpdboy/luci-app-lucky" "main"
+
+#ddns-go
+UPDATE_PACKAGE "ddns-go" "sirpdboy/luci-app-ddns-go" "main"
+
+#ddnsto
+UPDATE_PACKAGE "istore" "linkease/istore" "main"
+UPDATE_PACKAGE "nas-packages" "linkease/nas-packages" "master"
+UPDATE_PACKAGE "nas-packages-luci" "linkease/nas-packages-luci" "main"
 
 #更新软件包版本
 UPDATE_VERSION() {
