@@ -31,10 +31,10 @@ UPDATE_PACKAGE "passwall-packages" "xiaorouji/openwrt-passwall-packages" "main"
 # UPDATE_PACKAGE "helloworld" "fw876/helloworld" "master"
 UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev"
 
-if [[ $WRT_URL == *"immortalwrt"* ]]; then
+#if [[ $WRT_URL == *"immortalwrt"* ]]; then
 	#UPDATE_PACKAGE "homeproxy" "muink/homeproxy" "dev"
-	UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
-fi
+#	UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
+#fi
 
 #MosDNS
 UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5"
