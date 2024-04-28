@@ -29,7 +29,6 @@ UPDATE_PACKAGE "helloworld" "fw876/helloworld" "master"
 UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev"
 
 if [[ $WRT_URL == *"immortalwrt"* ]]; then
-	#UPDATE_PACKAGE "homeproxy" "muink/homeproxy" "dev"
 	UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
 fi
 
@@ -54,4 +53,4 @@ UPDATE_VERSION() {
 	fi
 }
 
-UPDATE_VERSION "sing-box" "1.9.0-rc.9" "8bbb1c2650dc7276943a587b1c5f5459434c3523c8bd1077d84457f034633446"
+UPDATE_VERSION "sing-box" "1.9.0-rc.12" "14ddbee9a648e45b831f78d941ac0b2a7fc7f99ff5649964356c71a8d4b6cb6e"
