@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: 0 4 * * 0
   #手动编译
-  workflow_dispatch:
+  #workflow_dispatch:
 
 #CI权限
 permissions: write-all
