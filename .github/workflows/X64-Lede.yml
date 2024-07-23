@@ -1,35 +1,47 @@
-#CI项目名
-name: X64-Lede
+# CI项目名称
+name: OWRT-86
 
+# CI计划
 on:
-  #自动编译：每天早上4点
+  # 自动编译：每周日早上4点
   schedule:
-    - cron: 0 4 * * 0
-  #手动编译
+    - cron: '0 4 * * 0'
+  # 手动编译
   workflow_dispatch:
 
-#CI权限
-permissions: write-all
+# CI权限
+permissions:
+  contents: write
 
-#CI任务
+# CI任务
 jobs:
   wrt_config:
-    #调用公用编译核心WRT-CORE.yml
+    name: ${{ matrix.TARGET }}
+    strategy:
+      fail-fast: false
+      # max-parallel: 3
+      matrix:
+        TARGET: [X86]
+        SOURCE: [coolsnowwolf/lede]
+
+    # 调用公用编译核心WRT-CORE.yml
     uses: ./.github/workflows/WRT-CORE.yml
     with:
-      #编译平台，X64包含X86
-      WRT_TARGET: X64
-      #默认主题
+      # 编译平台
+      WRT_TARGET: ${{ matrix.TARGET }}
+      # 默认主题
       WRT_THEME: argon
-      #默认主机名
+      # 默认主机名
       WRT_NAME: simWRT
-      #默认WIFI名
+      # 默认WIFI名
       WRT_WIFI: simWRT
-      #默认密码，仅作提示，修改无用
-      WRT_PW: password
-      #默认地址
+      # 默认地址
       WRT_IP: 10.10.10.23
-      #默认源码
-      WRT_URL: https://github.com/coolsnowwolf/lede.git
-      #默认分支
-      WRT_BRANCH: master
+      # 默认密码，仅作提示，修改无用
+      WRT_PW: 无
+      # 源码链接
+      WRT_REPO: https://github.com/${{ matrix.SOURCE }}.git
+      # 源码分支
+      WRT_BRANCH: ${{ matrix.BRANCH || 'master' }}
+      # 源码名称
+      WRT_SOURCE: ${{ matrix.SOURCE }}
