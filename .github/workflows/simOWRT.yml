@@ -1,5 +1,5 @@
 #CI项目
-name: simOWRT
+name: simOWRT-immortalwrt
 
 #CI计划
 on:
