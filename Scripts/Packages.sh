@@ -29,7 +29,7 @@ UPDATE_PACKAGE "argon-config" "jerrykuku/luci-app-argon-config" "$([[ $WRT_URL =
 UPDATE_PACKAGE "passwall" "xiaorouji/openwrt-passwall" "luci-smartdns-dev"
 UPDATE_PACKAGE "passwall-packages" "xiaorouji/openwrt-passwall-packages" "main"
 # UPDATE_PACKAGE "helloworld" "fw876/helloworld" "master"
-UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev"
+#UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev"
 
 if [[ $WRT_URL == *"immortalwrt"* ]]; then
 	UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
@@ -37,7 +37,7 @@ fi
 
 #MosDNS
 UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5"
-UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
+#UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
 
 #lucky
 #UPDATE_PACKAGE "lucky" "sirpdboy/luci-app-lucky" "main"
@@ -46,9 +46,9 @@ UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
 UPDATE_PACKAGE "ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 
 #ddnsto
-UPDATE_PACKAGE "istore" "linkease/istore" "main"
-UPDATE_PACKAGE "nas-packages" "linkease/nas-packages" "master"
-UPDATE_PACKAGE "nas-packages-luci" "linkease/nas-packages-luci" "main"
+#UPDATE_PACKAGE "istore" "linkease/istore" "main"
+#UPDATE_PACKAGE "nas-packages" "linkease/nas-packages" "master"
+#UPDATE_PACKAGE "nas-packages-luci" "linkease/nas-packages-luci" "main"
 
 
 #更新软件包版本
