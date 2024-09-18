@@ -28,8 +28,14 @@ UPDATE_PACKAGE() {
 #UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
 
 UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
-UPDATE_PACKAGE "homeproxy" "muink/luci-app-homeproxy" "master"
-UPDATE_PACKAGE "lucky" "gdy666/lucky" "master"
+UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
+UPDATE_PACKAGE "lucky" "sirpdboy/luci-app-lucky" "main"
+
+#增加
+UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
+UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
+UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5"
+UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
 
 UPDATE_PACKAGE "mihomo" "morytyann/OpenWrt-mihomo" "main"
 UPDATE_PACKAGE "nekoclash" "Thaolga/luci-app-nekoclash" "main"
