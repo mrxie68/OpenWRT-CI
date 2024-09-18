@@ -24,12 +24,12 @@ UPDATE_PACKAGE() {
 #删除 
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #UPDATE_PACKAGE "kucat" "sirpdboy/luci-theme-kucat" "js"
+#UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
+#UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
 
 UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
-
 UPDATE_PACKAGE "homeproxy" "muink/luci-app-homeproxy" "master"
-UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
-UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
+UPDATE_PACKAGE "lucky" "gdy666/lucky" "master"
 
 UPDATE_PACKAGE "mihomo" "morytyann/OpenWrt-mihomo" "main"
 UPDATE_PACKAGE "nekoclash" "Thaolga/luci-app-nekoclash" "main"
