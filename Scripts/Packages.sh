@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# 安装依赖包的函数
+INSTALL_DEPENDENCIES() {
+	# 列出需要安装的依赖包
+	DEPENDENCIES=("socat" "libpcre")
+
+	# 遍历每个依赖包，检查是否已经安装，若未安装则进行安装
+	for PKG in "${DEPENDENCIES[@]}"; do
+		if ! opkg list-installed | grep -q "^$PKG "; then
+			echo "Installing $PKG..."
+			opkg update
+			opkg install "$PKG"
+		else
+			echo "$PKG is already installed."
+		fi
+	done
+}
+
+# 首先调用安装依赖包函数
+INSTALL_DEPENDENCIES
+
 #安装和更新软件包
 UPDATE_PACKAGE() {
 	local PKG_NAME=$1
