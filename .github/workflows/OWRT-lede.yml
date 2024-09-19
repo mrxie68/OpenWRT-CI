@@ -1,5 +1,5 @@
 #CI项目
-name: OWRT-master
+name: OWRT-lede
 
 #CI计划
 on:
@@ -34,7 +34,7 @@ jobs:
       matrix:
         TARGET: [X86]
         #TARGET: [MEDIATEK, ROCKCHIP, X86]
-        SOURCE: [immortalwrt/immortalwrt]
+        SOURCE: [coolsnowwolf/lede]
         #SOURCE: [VIKINGYFY/immortalwrt]
 
     #调用公用编译核心WRT-CORE.yml
