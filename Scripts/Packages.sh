@@ -1,25 +1,5 @@
 #!/bin/bash
 
-# 安装依赖包的函数
-INSTALL_DEPENDENCIES() {
-	# 列出需要安装的依赖包
-	DEPENDENCIES=("socat" "libpcre")
-
-	# 遍历每个依赖包，检查是否已经安装，若未安装则进行安装
-	for PKG in "${DEPENDENCIES[@]}"; do
-		if ! opkg list-installed | grep -q "^$PKG "; then
-			echo "Installing $PKG..."
-			opkg update
-			opkg install "$PKG"
-		else
-			echo "$PKG is already installed."
-		fi
-	done
-}
-
-# 首先调用安装依赖包函数
-INSTALL_DEPENDENCIES
-
 #安装和更新软件包
 UPDATE_PACKAGE() {
 	local PKG_NAME=$1
@@ -44,15 +24,13 @@ UPDATE_PACKAGE() {
 #删除 
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #UPDATE_PACKAGE "kucat" "sirpdboy/luci-theme-kucat" "js"
-#UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
-#UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
 
 UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
 UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
 UPDATE_PACKAGE "lucky" "sirpdboy/luci-app-lucky" "main"
 
 #增加
-UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
+#UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
 UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
 UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5"
 UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
@@ -63,9 +41,9 @@ UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev" "pkg"
 UPDATE_PACKAGE "passwall" "xiaorouji/openwrt-passwall" "main" "pkg"
 UPDATE_PACKAGE "ssr-plus" "fw876/helloworld" "master"
 
-UPDATE_PACKAGE "luci-app-advancedplus" "VIKINGYFY/luci-app-advancedplus" "main"
+UPDATE_PACKAGE "luci-app-advancedplus" "sirpdboy/luci-app-advancedplus" "main"
 UPDATE_PACKAGE "luci-app-gecoosac" "lwb1978/openwrt-gecoosac" "main"
-UPDATE_PACKAGE "luci-app-wolplus" "VIKINGYFY/luci-app-wolplus" "main"
+UPDATE_PACKAGE "luci-app-wolplus" "animegasan/luci-app-wolplus" "main"
 
 if [[ $WRT_REPO == *"openwrt-6.x"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
