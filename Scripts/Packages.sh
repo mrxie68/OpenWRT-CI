@@ -26,7 +26,7 @@ UPDATE_PACKAGE() {
 #UPDATE_PACKAGE "kucat" "sirpdboy/luci-theme-kucat" "js"
 
 UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
-UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
+UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "master"
 UPDATE_PACKAGE "lucky" "gdy666/luci-app-lucky" "main"
 
 #增加

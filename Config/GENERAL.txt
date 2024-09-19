@@ -68,8 +68,8 @@ CONFIG_PACKAGE_luci-app-homeproxy=y
 #增加插件
 CONFIG_PACKAGE_luci-app-ramfree=y #内存释放
 CONFIG_PACKAGE_luci-app-advancedplus=y
-CONFIG_PACKAGE_luci-app-lucky=y
 CONFIG_PACKAGE_luci-app-mosdns=y
+CONFIG_PACKAGE_luci-app-lucky=n
 
 
 #删除插件
