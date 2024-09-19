@@ -27,7 +27,7 @@ UPDATE_PACKAGE() {
 
 UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
 UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
-UPDATE_PACKAGE "lucky" "sirpdboy/luci-app-lucky" "main"
+UPDATE_PACKAGE "lucky" "gdy666/luci-app-lucky" "main"
 
 #增加
 UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
