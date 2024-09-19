@@ -32,8 +32,10 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        TARGET: [MEDIATEK, ROCKCHIP, X86]
-        SOURCE: [VIKINGYFY/immortalwrt]
+        TARGET: [X86]
+        #TARGET: [MEDIATEK, ROCKCHIP, X86]
+        SOURCE: [immortalwrt/immortalwrt]
+        #SOURCE: [VIKINGYFY/immortalwrt]
 
     #调用公用编译核心WRT-CORE.yml
     uses: ./.github/workflows/WRT-CORE.yml
@@ -43,17 +45,17 @@ jobs:
       #默认主题
       WRT_THEME: argon
       #默认主机名
-      WRT_NAME: OWRT
+      WRT_NAME: SimOWRT
       #默认WIFI名
-      WRT_WIFI: OWRT
+      WRT_WIFI: SimOWRT
       #默认地址
-      WRT_IP: 192.168.10.1
+      WRT_IP: 10.10.10.23
       #默认密码，仅作提示，修改无用
       WRT_PW: 无
       #源码链接
       WRT_REPO: https://github.com/${{matrix.SOURCE}}.git
       #源码分支
-      WRT_BRANCH: ${{matrix.BRANCH || 'owrt'}}
+      WRT_BRANCH: ${{matrix.BRANCH || 'master'}}
       #源码名称
       WRT_SOURCE: ${{matrix.SOURCE}}
       #插件调整
