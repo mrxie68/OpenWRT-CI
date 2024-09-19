@@ -30,7 +30,6 @@ UPDATE_PACKAGE "homeproxy" "immortalwrt/homeproxy" "dev"
 UPDATE_PACKAGE "lucky" "sirpdboy/luci-app-lucky" "main"
 
 #增加
-#UPDATE_PACKAGE "socat" "chenmozhijin/luci-app-socat" "main"
 UPDATE_PACKAGE "ddnsgo" "sirpdboy/luci-app-ddns-go" "main"
 UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5"
 UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
