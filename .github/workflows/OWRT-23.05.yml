@@ -36,7 +36,7 @@ jobs:
         #TARGET: [MEDIATEK, ROCKCHIP, X86]
         SOURCE: [immortalwrt/immortalwrt]
         #SOURCE: [VIKINGYFY/immortalwrt]
-        BRANCH: v23.05.4
+        BRANCH: [v23.05.4]
 
     #调用公用编译核心WRT-CORE.yml
     uses: ./.github/workflows/WRT-CORE.yml
