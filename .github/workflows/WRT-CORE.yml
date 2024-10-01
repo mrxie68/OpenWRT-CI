@@ -105,6 +105,13 @@ jobs:
           echo "WRT_VER=$WRT_VER" >> $GITHUB_ENV
           echo "WRT_TYPE=$WRT_TYPE" >> $GITHUB_ENV
 
+      - name: Install Go 1.22
+        run: |
+            sudo rm -rf /usr/local/go
+            wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
+            sudo tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz
+            echo "export PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
+
       - name: Clone Code
         run: |
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
