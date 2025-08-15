@@ -72,7 +72,7 @@ fi
 # 修改 root 登录密码
 # =========================
 if [ -n "$WRT_PASSWD" ]; then
-    PASSWD_HASH=$(openssl passwd -1 "$WRT_PASSWD")
+    PASSWD_HASH=$(openssl passwd -1 "$WRT_PW")
     SHADOW_FILE="./package/base-files/files/etc/shadow"
 
     # 如果 etc/shadow 不存在，先创建
