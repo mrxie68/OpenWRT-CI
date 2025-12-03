@@ -84,5 +84,14 @@ if [ -n "$WRT_PASSWD" ]; then
     sed -i "s|^root:[^:]*:|root:${PASSWD_HASH}:|" "$SHADOW_FILE"
     echo "已将 root 密码设置为: $WRT_PASSWD"
 fi
-# 强制开启 Wifi (legacy config)
-   sed -i 's/disabled=1/disabled=0/g' /etc/config/wireless 2>/dev/null
+    mkdir -p ./package/base-files/files/etc/uci-defaults/
+    cat <<EOF > ./package/base-files/files/etc/uci-defaults/99-open-wifi
+    #!/bin/sh
+    # 开启所有无线接口
+    uci set wireless.radio0.disabled=0
+    uci set wireless.radio1.disabled=0
+    uci set wireless.radio2.disabled=0
+    uci commit wireless
+    exit 0
+    EOF
+    chmod +x ./package/base-files/files/etc/uci-defaults/99-open-wifi
