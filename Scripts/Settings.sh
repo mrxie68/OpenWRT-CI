@@ -84,3 +84,5 @@ if [ -n "$WRT_PASSWD" ]; then
     sed -i "s|^root:[^:]*:|root:${PASSWD_HASH}:|" "$SHADOW_FILE"
     echo "已将 root 密码设置为: $WRT_PASSWD"
 fi
+# 强制开启 Wifi (legacy config)
+   sed -i 's/disabled=1/disabled=0/g' /etc/config/wireless 2>/dev/null
