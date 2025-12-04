@@ -78,6 +78,8 @@ CONFIG_PACKAGE_usbmuxd=n
 CONFIG_PACKAGE_luci-app-diagnostics=n   # 去除网络诊断
 CONFIG_PACKAGE_sqm-scripts=n            # 去除 SQM 核心脚本
 CONFIG_PACKAGE_sqm-scripts-nss=n        # 去除 NSS 版 SQM 脚本
+CONFIG_PACKAGE_luci-app-athena-led=n
+CONFIG_PACKAGE_luci-i18n-athena-led-zh-cn=n
 #组件调整1
 CONFIG_PACKAGE_autocore=y
 CONFIG_PACKAGE_automount=y
