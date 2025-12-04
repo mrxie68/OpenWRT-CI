@@ -54,8 +54,8 @@ DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
 if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
     echo "CONFIG_FEED_nss_packages=n" >> ./.config
     echo "CONFIG_FEED_sqm_scripts_nss=n" >> ./.config
-    echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
-    echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
+    # echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
+    # echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
     echo "CONFIG_NSS_FIRMWARE_VERSION_11_4=n" >> ./.config
     if [[ "${WRT_CONFIG,,}" == *"ipq50"* ]]; then
         echo "CONFIG_NSS_FIRMWARE_VERSION_12_2=y" >> ./.config
