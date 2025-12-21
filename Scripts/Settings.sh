@@ -101,24 +101,3 @@ uci commit wireless
 exit 0
 EOF
 chmod +x ./package/base-files/files/etc/uci-defaults/99-open-wifi
-
-# =========================
-# 深度精简：暴力删除原生核心菜单
-# =========================
-
-# 1. 删除 "系统 -> LED 配置" 菜单
-find ./feeds/luci/modules/luci-mod-system/ -type f -name "system.lua" -exec sed -i '/"admin", "system", "leds"/d' {} \;
-
-# 2. 删除 "网络 -> 网络诊断" 菜单
-find ./feeds/luci/modules/luci-mod-network/ -type f -name "network.lua" -exec sed -i '/"admin", "network", "diagnostics"/d' {} \;
-
-# 3. 删除 "状态 -> 频道分析" 菜单 (新增)
-find ./feeds/luci/modules/luci-mod-status/ -type f -name "status.lua" -exec sed -i '/"admin", "status", "channel_analysis"/d' {} \;
-
-# =========================
-# 个性化定制：修改菜单名称
-# =========================
-
-# 4. 将 "智能辅助系统更新" 改名为 "系统更新"
-# 原理：直接查找翻译文件，把对应的中文词条替换掉
-find ./feeds/luci/applications/luci-app-attendedsysupgrade/po/zh_Hans -type f -name "*.po" -exec sed -i 's/智能辅助系统更新/系统更新/g' {} \;
