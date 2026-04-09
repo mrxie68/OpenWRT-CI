@@ -102,3 +102,9 @@ if [ -f "$LED_MENU" ]; then
 	rm -f "$LED_MENU"
 	cd $PKG_PATH && echo "LED menu has been removed!"
 fi
+# 移除原生网络诊断菜单入口
+DIAG_MENU=$(find ../feeds/luci/ -maxdepth 5 -type f -wholename "*/luci-mod-network/root/usr/share/luci/menu.d/luci-mod-network-diagnostics.json")
+if [ -f "$DIAG_MENU" ]; then
+	rm -f "$DIAG_MENU"
+	cd $PKG_PATH && echo "Diagnostics menu has been removed!"
+fi
