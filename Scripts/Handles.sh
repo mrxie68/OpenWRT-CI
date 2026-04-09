@@ -97,15 +97,18 @@ if [ -d "$SB_PATCH" ]; then
 
 	cd $PKG_PATH && echo "sing-box patches has been fixed!"
 fi
-# 移除系统自带的 LED 配置菜单入口
-LED_MENU=$(find ../feeds/luci/ -maxdepth 5 -type f -wholename "*/luci-mod-system/root/usr/share/luci/menu.d/luci-mod-system-leds.json")
-if [ -f "$LED_MENU" ]; then
-	rm -f "$LED_MENU"
-	cd $PKG_PATH && echo "LED menu has been removed!"
-fi
-# 移除原生网络诊断菜单入口
-DIAG_MENU=$(find ../feeds/luci/ -maxdepth 5 -type f -wholename "*/luci-mod-network/root/usr/share/luci/menu.d/luci-mod-network-diagnostics.json")
-if [ -f "$DIAG_MENU" ]; then
-	rm -f "$DIAG_MENU"
-	cd $PKG_PATH && echo "Diagnostics menu has been removed!"
-fi
+# =========================
+# 彻底隐藏不需要的菜单
+# =========================
+
+# 1. 隐藏“状态”栏中的“信道分析”
+find ../feeds/luci/modules/luci-mod-status/ -type f -name "luci-mod-status-status.json" -exec sed -i '/channel_analysis/,/}/d' {} +
+
+# 2. 隐藏“系统”栏中的“LED 配置”
+find ../feeds/luci/modules/luci-mod-system/ -type f -name "luci-mod-system-leds.json" -exec rm -f {} +
+
+# 3. 隐藏“系统”栏中的“Plugins” (通常由系统升级插件残留引起)
+find ../feeds/luci/ -type f -name "*attendedsysupgrade.json" -exec rm -f {} +
+
+# 4. 隐藏“网络”栏中的“网络诊断”
+find ../feeds/luci/modules/luci-mod-network/ -type f -name "luci-mod-network-diagnostics.json" -exec rm -f {} +
