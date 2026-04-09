@@ -96,3 +96,9 @@ if [ -d "$SB_PATCH" ]; then
 
 	cd $PKG_PATH && echo "sing-box patches has been fixed!"
 fi
+# 移除系统自带的 LED 配置菜单入口
+LED_MENU=$(find ../feeds/luci/ -maxdepth 5 -type f -wholename "*/luci-mod-system/root/usr/share/luci/menu.d/luci-mod-system-leds.json")
+if [ -f "$LED_MENU" ]; then
+	rm -f "$LED_MENU"
+	cd $PKG_PATH && echo "LED menu has been removed!"
+fi
