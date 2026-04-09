@@ -71,7 +71,8 @@ fi
 # =========================
 # 修改 root 登录密码
 # =========================
-if [ -n "$WRT_PASSWD" ]; then
+
+if [ -n "$WRT_PW" ] && [ "$WRT_PW" != "无" ]; then
     PASSWD_HASH=$(openssl passwd -1 "$WRT_PW")
     SHADOW_FILE="./package/base-files/files/etc/shadow"
 
@@ -82,7 +83,7 @@ if [ -n "$WRT_PASSWD" ]; then
     fi
 
     sed -i "s|^root:[^:]*:|root:${PASSWD_HASH}:|" "$SHADOW_FILE"
-    echo "已将 root 密码设置为: $WRT_PASSWD"
+    echo "已将 root 密码设置为: $WRT_PW"
 fi
 
 # ... (保留上面的 root 密码修改部分不变) ...
