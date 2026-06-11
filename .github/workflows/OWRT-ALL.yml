@@ -22,16 +22,23 @@ on:
         type: boolean
 
 #CI权限
-permissions: write-all
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: false
 
 #CI任务
 jobs:
   config:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     name: ${{matrix.CONFIG}}
     strategy:
       fail-fast: false
       #max-parallel: 3
-      # CONFIG: [MEDIATEK, ROCKCHIP, X86]
+      # CONFIG: [X86]
       matrix:
         CONFIG: [X86]
         SOURCE: [VIKINGYFY/immortalwrt]

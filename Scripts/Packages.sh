@@ -1,12 +1,14 @@
 #!/bin/bash
+set -euo pipefail
 
 #安装和更新软件包
 UPDATE_PACKAGE() {
 	local PKG_NAME=$1
 	local PKG_REPO=$2
 	local PKG_BRANCH=$3
-	local PKG_SPECIAL=$4
-	local PKG_LIST=("$PKG_NAME" $5)  # 第5个参数为自定义名称列表
+	local PKG_SPECIAL=${4:-}
+	local PKG_EXTRA_NAMES=${5:-}
+	local PKG_LIST=("$PKG_NAME" $PKG_EXTRA_NAMES)  # 第5个参数为自定义名称列表
 	local REPO_NAME=${PKG_REPO#*/}
 
 	echo " "
@@ -15,7 +17,7 @@ UPDATE_PACKAGE() {
 	for NAME in "${PKG_LIST[@]}"; do
 		# 查找匹配的目录
 		echo "Search directory: $NAME"
-		local FOUND_DIRS=$(find ../feeds/luci/ ../feeds/packages/ -maxdepth 3 -type d -iname "*$NAME*" 2>/dev/null)
+		local FOUND_DIRS=$(find ../feeds/luci/ ../feeds/packages/ -maxdepth 3 -type d -iname "*$NAME*" 2>/dev/null || true)
 
 		# 删除找到的目录
 		if [ -n "$FOUND_DIRS" ]; then
@@ -29,14 +31,14 @@ UPDATE_PACKAGE() {
 	done
 
 	# 克隆 GitHub 仓库
-	git clone --depth=1 --single-branch --branch $PKG_BRANCH "https://github.com/$PKG_REPO.git"
+	git clone --depth=1 --single-branch --branch "$PKG_BRANCH" "https://github.com/$PKG_REPO.git"
 
 	# 处理克隆的仓库
 	if [[ "$PKG_SPECIAL" == "pkg" ]]; then
-		find ./$REPO_NAME/*/ -maxdepth 3 -type d -iname "*$PKG_NAME*" -prune -exec cp -rf {} ./ \;
-		rm -rf ./$REPO_NAME/
+		find ./"$REPO_NAME"/*/ -maxdepth 3 -type d -iname "*$PKG_NAME*" -prune -exec cp -rf {} ./ \;
+		rm -rf ./"$REPO_NAME"/
 	elif [[ "$PKG_SPECIAL" == "name" ]]; then
-		mv -f $REPO_NAME $PKG_NAME
+		mv -f "$REPO_NAME" "$PKG_NAME"
 	fi
 }
 
@@ -87,13 +89,26 @@ UPDATE_VERSION() {
 	echo -e "\n$PKG_NAME version update has started!"
 
 	for PKG_FILE in $PKG_FILES; do
-		local PKG_REPO=$(grep -Po "PKG_SOURCE_URL:=https://.*github.com/\K[^/]+/[^/]+(?=.*)" $PKG_FILE)
+		local PKG_REPO=$(grep -Po "PKG_SOURCE_URL:=https://.*github.com/\K[^/]+/[^/]+(?=.*)" "$PKG_FILE" || true)
+		if [ -z "$PKG_REPO" ]; then
+			echo "$PKG_FILE has no GitHub source URL, skip."
+			continue
+		fi
 		local PKG_TAG=$(curl -sL "https://api.github.com/repos/$PKG_REPO/releases" | jq -r "map(select(.prerelease == $PKG_MARK)) | first | .tag_name")
+		if [ -z "$PKG_TAG" ] || [ "$PKG_TAG" = "null" ]; then
+			echo "$PKG_NAME release tag not found, skip."
+			continue
+		fi
 
-		local OLD_VER=$(grep -Po "PKG_VERSION:=\K.*" "$PKG_FILE")
-		local OLD_URL=$(grep -Po "PKG_SOURCE_URL:=\K.*" "$PKG_FILE")
-		local OLD_FILE=$(grep -Po "PKG_SOURCE:=\K.*" "$PKG_FILE")
-		local OLD_HASH=$(grep -Po "PKG_HASH:=\K.*" "$PKG_FILE")
+		local OLD_VER=$(grep -Po "PKG_VERSION:=\K.*" "$PKG_FILE" || true)
+		local OLD_URL=$(grep -Po "PKG_SOURCE_URL:=\K.*" "$PKG_FILE" || true)
+		local OLD_FILE=$(grep -Po "PKG_SOURCE:=\K.*" "$PKG_FILE" || true)
+		local OLD_HASH=$(grep -Po "PKG_HASH:=\K.*" "$PKG_FILE" || true)
+
+		if [ -z "$OLD_VER" ] || [ -z "$OLD_URL" ] || [ -z "$OLD_FILE" ] || [ -z "$OLD_HASH" ]; then
+			echo "$PKG_FILE version metadata incomplete, skip."
+			continue
+		fi
 
 		local PKG_URL=$([[ "$OLD_URL" == *"releases"* ]] && echo "${OLD_URL%/}/$OLD_FILE" || echo "${OLD_URL%/}")
 

@@ -7,7 +7,13 @@ on:
   #手动清理
   workflow_dispatch:
 
-permissions: write-all
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: ${{github.workflow}}
+  cancel-in-progress: false
 
 jobs:
   auto_clean:
