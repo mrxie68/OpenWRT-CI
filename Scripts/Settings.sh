@@ -109,6 +109,7 @@ mkdir -p ./package/base-files/files/etc/sysctl.d/
 cat <<EOF > ./package/base-files/files/etc/sysctl.d/99-performance.conf
 net.core.default_qdisc=fq
 net.ipv4.tcp_congestion_control=bbr
+vm.swappiness=60
 EOF
 
 cat <<EOF > ./package/base-files/files/etc/uci-defaults/98-performance-tuning
@@ -116,6 +117,10 @@ cat <<EOF > ./package/base-files/files/etc/uci-defaults/98-performance-tuning
 # 多核设备开启 packet steering，提升高并发转发时的 CPU 利用率。
 uci -q set network.globals.packet_steering='1'
 uci -q commit network
+
+# 保持系统日志缓冲适中，减少常驻内存占用。
+uci -q set system.@system[0].log_size='64'
+uci -q commit system
 exit 0
 EOF
 chmod +x ./package/base-files/files/etc/uci-defaults/98-performance-tuning
