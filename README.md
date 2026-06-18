@@ -17,6 +17,8 @@ https://github.com/VIKINGYFY/immortalwrt.git
 
 - `X86`
 - `IPQ60XX-WIFI-YES`
+- `IPQ60XX-WIFI-YES-NONSS`
+- `IPQ60XX-WIFI-NO`
 
 ## 工作流说明
 

@@ -53,18 +53,30 @@ fi
 # 高通平台调整
 DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
 IS_WIFI_NO=0
+WRT_CONFIG_LC="${WRT_CONFIG,,}"
 if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
     echo "CONFIG_FEED_nss_packages=n" >> ./.config
     echo "CONFIG_FEED_sqm_scripts_nss=n" >> ./.config
     # echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
     # echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
     echo "CONFIG_NSS_FIRMWARE_VERSION_11_4=n" >> ./.config
-    if [[ "${WRT_CONFIG,,}" == *"ipq50"* ]]; then
+    if [[ "$WRT_CONFIG_LC" == *"ipq50"* ]]; then
         echo "CONFIG_NSS_FIRMWARE_VERSION_12_2=y" >> ./.config
     else
         echo "CONFIG_NSS_FIRMWARE_VERSION_12_5=y" >> ./.config
     fi
-    if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
+    if [[ "$WRT_CONFIG_LC" == *"nonss"* ]]; then
+        cat <<'EOF' >> ./.config
+# CONFIG_ATH11K_NSS_SUPPORT is not set
+# CONFIG_ATH11K_NSS_MESH_SUPPORT is not set
+# CONFIG_PACKAGE_MAC80211_NSS_SUPPORT is not set
+# CONFIG_NSS_DRV_WIFIOFFLOAD_ENABLE is not set
+# CONFIG_NSS_DRV_WIFI_EXT_VDEV_ENABLE is not set
+# CONFIG_NSS_DRV_WIFI_MESH_ENABLE is not set
+EOF
+        echo "qualcommax WiFi NSS offload disabled, WiFi drivers kept."
+    fi
+    if [[ "$WRT_CONFIG_LC" == *"wifi-no"* ]]; then
         IS_WIFI_NO=1
         cat <<'EOF' >> ./.config
 # CONFIG_PACKAGE_kmod-ath is not set
