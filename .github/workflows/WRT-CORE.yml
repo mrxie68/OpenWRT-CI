@@ -249,6 +249,7 @@ jobs:
 
 
       - name: Release Firmware
+        if: env.WRT_TEST != 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_BRANCH}}-${{env.WRT_DATE}}
