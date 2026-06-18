@@ -1,0 +1,66 @@
+# Upstream risk check
+name: WRT-RISK
+
+on:
+  workflow_dispatch:
+    inputs:
+      SOURCE:
+        default: 'VIKINGYFY/immortalwrt'
+        required: true
+        type: choice
+        options:
+          - VIKINGYFY/immortalwrt
+          - immortalwrt/immortalwrt
+          - LiBwrt/openwrt-6.x
+          - qosmio/openwrt-ipq
+      BRANCH:
+        default: 'main'
+        required: true
+        type: string
+      CONFIG:
+        default: 'IPQ60XX-WIFI-YES'
+        required: true
+        type: choice
+        options:
+          - IPQ60XX-WIFI-YES
+          - IPQ60XX-WIFI-YES-NONSS
+          - IPQ60XX-WIFI-NO
+          - X86
+
+permissions:
+  contents: read
+
+jobs:
+  risk:
+    name: ${{inputs.SOURCE}} ${{inputs.BRANCH}}
+    runs-on: ubuntu-latest
+    env:
+      WRT_SOURCE: ${{inputs.SOURCE}}
+      WRT_BRANCH: ${{inputs.BRANCH}}
+      WRT_CONFIG: ${{inputs.CONFIG}}
+      WRT_REPO: https://github.com/${{inputs.SOURCE}}.git
+    steps:
+      - name: Checkout Projects
+        uses: actions/checkout@v4
+
+      - name: Clone Upstream
+        run: |
+          git clone --depth=50 --single-branch --branch "$WRT_BRANCH" "$WRT_REPO" ./wrt/
+          cd ./wrt/
+          echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> "$GITHUB_ENV"
+
+      - name: Check Scripts
+        run: |
+          find ./Scripts -type f -name "*.sh" -exec sed -i 's/\r$//' {} \; -exec chmod +x {} \;
+
+      - name: Check Upstream Risk
+        run: |
+          cd ./wrt/
+          "$GITHUB_WORKSPACE/Scripts/RiskCheck.sh"
+          cat "$GITHUB_WORKSPACE/risk-report.txt" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Risk Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Risk-${{inputs.CONFIG}}-${{env.WRT_HASH}}
+          path: risk-report.txt
