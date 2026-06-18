@@ -13,6 +13,10 @@ if [ -f "$STATE_FILE" ]; then
     PREVIOUS_HASH="$(tr -d '[:space:]' < "$STATE_FILE" || true)"
 fi
 
+if [ -n "$PREVIOUS_HASH" ] && ! git cat-file -e "$PREVIOUS_HASH^{commit}" 2>/dev/null; then
+    git fetch --deepen=1000 origin "$WRT_BRANCH" || true
+fi
+
 {
     echo "OpenWrt upstream risk report"
     echo "Source: $WRT_SOURCE"
