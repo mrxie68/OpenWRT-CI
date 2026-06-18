@@ -40,6 +40,15 @@ on:
       WRT_TEST:
         required: false
         type: string
+    secrets:
+      MAIL_SERVER:
+        required: false
+      MAIL_USERNAME:
+        required: false
+      MAIL_PASSWORD:
+        required: false
+      MAIL_TO:
+        required: false
 
 env:
   WRT_CONFIG: ${{inputs.WRT_CONFIG}}
@@ -54,6 +63,10 @@ env:
   WRT_SOURCE: ${{inputs.WRT_SOURCE}}
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_TEST: ${{inputs.WRT_TEST}}
+  MAIL_SERVER: ${{secrets.MAIL_SERVER}}
+  MAIL_USERNAME: ${{secrets.MAIL_USERNAME}}
+  MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
+  MAIL_TO: ${{secrets.MAIL_TO}}
 
 jobs:
   core:
@@ -262,3 +275,25 @@ jobs:
 
             内核版本：${{env.WRT_KVER}}
             插件列表：${{env.WRT_LIST}}
+
+      - name: Send Build Email
+        if: env.WRT_TEST != 'true' && env.MAIL_SERVER != '' && env.MAIL_USERNAME != '' && env.MAIL_PASSWORD != '' && env.MAIL_TO != ''
+        uses: dawidd6/action-send-mail@v6
+        with:
+          server_address: ${{env.MAIL_SERVER}}
+          server_port: 465
+          secure: true
+          username: ${{env.MAIL_USERNAME}}
+          password: ${{env.MAIL_PASSWORD}}
+          subject: OpenWrt build done - ${{env.WRT_CONFIG}} ${{env.WRT_DATE}}
+          to: ${{env.MAIL_TO}}
+          from: OpenWrt CI <${{env.MAIL_USERNAME}}>
+          body: |
+            OpenWrt firmware build completed.
+
+            Config: ${{env.WRT_CONFIG}}
+            Source: ${{env.WRT_REPO}}
+            Branch: ${{env.WRT_BRANCH}}
+            Commit: ${{env.WRT_HASH}}
+            Kernel: ${{env.WRT_KVER}}
+            Release: https://github.com/${{github.repository}}/releases/tag/${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_BRANCH}}-${{env.WRT_DATE}}
