@@ -13,6 +13,7 @@ on:
         options:
           - X86
           - IPQ60XX-WIFI-YES
+          - IPQ60XX-WIFI-NO
       SOURCE:
         default: 'VIKINGYFY/immortalwrt'
         required: true

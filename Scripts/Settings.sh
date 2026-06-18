@@ -52,6 +52,7 @@ fi
 
 # 高通平台调整
 DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
+IS_WIFI_NO=0
 if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
     echo "CONFIG_FEED_nss_packages=n" >> ./.config
     echo "CONFIG_FEED_sqm_scripts_nss=n" >> ./.config
@@ -64,6 +65,7 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
         echo "CONFIG_NSS_FIRMWARE_VERSION_12_5=y" >> ./.config
     fi
     if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
+        IS_WIFI_NO=1
         find "$DTS_PATH" -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\).dtsi/ipq\1-nowifi.dtsi/g' {} +
         echo "qualcommax set up nowifi successfully!"
     fi
@@ -91,6 +93,7 @@ fi
 # 强制开启 Wifi (通用方法)
 # =========================
 mkdir -p ./package/base-files/files/etc/uci-defaults/
+if [ "$IS_WIFI_NO" -eq 0 ]; then
 cat <<EOF > ./package/base-files/files/etc/uci-defaults/99-open-wifi
 #!/bin/sh
 # 开启所有无线接口
@@ -101,6 +104,7 @@ uci commit wireless
 exit 0
 EOF
 chmod +x ./package/base-files/files/etc/uci-defaults/99-open-wifi
+fi
 
 # =========================
 # 轻量性能优化
