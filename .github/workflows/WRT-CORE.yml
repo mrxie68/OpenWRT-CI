@@ -114,6 +114,7 @@ jobs:
           restore-keys: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}
           path: |
             ./wrt/.ccache
+            ./wrt/dl
             ./wrt/staging_dir/host*
             ./wrt/staging_dir/tool*
 
@@ -212,7 +213,6 @@ jobs:
 
             find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
 
-            make clean -j$(nproc)
           fi
 
       - name: Upload Firmware to Artifacts
