@@ -27,14 +27,37 @@ fi
     echo
 } > "$REPORT"
 
-if [ -z "$PREVIOUS_HASH" ] || ! git cat-file -e "$PREVIOUS_HASH^{commit}" 2>/dev/null; then
+if [ -z "$PREVIOUS_HASH" ]; then
     {
         echo "Risk: UNKNOWN"
-        echo "Reason: no previous upstream hash was recorded, or the shallow clone cannot see it."
+        echo "Reason: no previous upstream hash was recorded."
         echo "Action: treat the first build after this change as a baseline; review upstream commits manually if flashing a main router."
     } >> "$REPORT"
     echo "RISK_LEVEL=unknown" >> "$GITHUB_ENV"
     echo "RISK_SUMMARY=No previous upstream hash recorded" >> "$GITHUB_ENV"
+    exit 0
+fi
+
+if ! git cat-file -e "$PREVIOUS_HASH^{commit}" 2>/dev/null; then
+    {
+        echo "Risk: HIGH"
+        echo "Reason: previous upstream hash is not reachable from the current branch history. The upstream branch may have been force-pushed or rewritten."
+        echo "Action: do not flash full WiFi NSS firmware until this run is reviewed. Rebaseline only after a known-good boot."
+        echo
+        echo "Recent commits:"
+        git log --oneline --date=short --pretty=format:'%h %ad %s' -30 || true
+        echo
+        echo
+        echo "Recent critical-path commits:"
+        git log --oneline --date=short --pretty=format:'%h %ad %s' -30 -- \
+            package/qca-nss \
+            package/kernel/mac80211 \
+            target/linux/qualcommax \
+            'target/linux/*/base-files/lib/upgrade' \
+            'target/linux/*/image' || true
+    } >> "$REPORT"
+    echo "RISK_LEVEL=high" >> "$GITHUB_ENV"
+    echo "RISK_SUMMARY=Previous upstream hash is not reachable" >> "$GITHUB_ENV"
     exit 0
 fi
 
