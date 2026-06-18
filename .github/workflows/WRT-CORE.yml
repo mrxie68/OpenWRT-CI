@@ -241,7 +241,6 @@ jobs:
           fi
 
       - name: Upload Firmware to Artifacts
-        if: env.WRT_TEST != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: ${{env.WRT_CONFIG}}-${{env.WRT_DATE}}
