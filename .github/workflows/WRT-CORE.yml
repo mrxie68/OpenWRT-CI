@@ -104,7 +104,7 @@ jobs:
 
       - name: Clone Code
         run: |
-          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
+          git clone --depth=50 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
@@ -117,6 +117,19 @@ jobs:
       - name: Check Scripts
         run: |
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
+
+      - name: Check Upstream Risk
+        run: |
+          cd ./wrt/
+          $GITHUB_WORKSPACE/Scripts/RiskCheck.sh
+          cat $GITHUB_WORKSPACE/risk-report.txt >> $GITHUB_STEP_SUMMARY
+
+      - name: Stop Risky Full WiFi NSS Build
+        if: env.RISK_LEVEL == 'high' && contains(env.WRT_CONFIG, 'WIFI-YES') && !contains(env.WRT_CONFIG, 'NONSS') && env.WRT_TEST != 'true'
+        run: |
+          echo "High-risk upstream changes were detected in NSS/WiFi/target paths."
+          echo "Full WiFi NSS firmware is blocked for this run. Use TEST=true first, or build IPQ60XX-WIFI-YES-NONSS / IPQ60XX-WIFI-NO."
+          exit 1
 
       - name: Check Caches
         id: check-cache
@@ -212,6 +225,7 @@ jobs:
           cd ./wrt/ && mkdir ./upload/
 
           cp -f ./.config ./upload/Config-"$WRT_CONFIG"-"$WRT_INFO"-"$WRT_BRANCH"-"$WRT_DATE".txt
+          cp -f $GITHUB_WORKSPACE/risk-report.txt ./upload/Risk-"$WRT_CONFIG"-"$WRT_INFO"-"$WRT_BRANCH"-"$WRT_DATE".txt
 
           if [[ $WRT_TEST != 'true' ]]; then
             echo "WRT_KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)" >> $GITHUB_ENV
