@@ -206,12 +206,24 @@ jobs:
 
             for FILE in $(find ./bin/targets/ -type f -iname "*$WRT_TARGET*") ; do
               EXT=$(basename $FILE | cut -d '.' -f 2-)
-              NAME=$(basename $FILE | cut -d '.' -f 1 | grep -io "\($WRT_TARGET\).*")
-              NEW_FILE="$WRT_INFO"-"$WRT_BRANCH"-"$NAME"-"$WRT_DATE"."$EXT"
+              BASE=$(basename $FILE | cut -d '.' -f 1)
+              IMAGE_TYPE=$(echo "$BASE" | grep -Eo '(factory|sysupgrade)' | tail -n 1 || true)
+              DEVICE=$(echo "$BASE" | sed -E "s/^.*$WRT_TARGET[-_]//I; s/[-_](squashfs|ext4).*$//I")
+              if [ -n "$IMAGE_TYPE" ]; then
+                NEW_FILE="$WRT_CONFIG"-"$DEVICE"-"$IMAGE_TYPE"-"$WRT_DATE"."$EXT"
+              else
+                NEW_FILE="$WRT_CONFIG"-"$BASE"-"$WRT_DATE"."$EXT"
+              fi
               mv -f $FILE ./upload/$NEW_FILE
             done
 
-            find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
+            find ./bin/targets/ -type f \( \
+              -iname "*.bin" -o \
+              -iname "*.manifest" -o \
+              -iname "*.buildinfo" -o \
+              -iname "profiles.json" -o \
+              -iname "sha256sums" \
+            \) -exec mv -f {} ./upload/ \;
 
           fi
 
