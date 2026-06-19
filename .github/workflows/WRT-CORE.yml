@@ -195,6 +195,11 @@ jobs:
           make defconfig -j$(nproc)
 
           if [[ "$WRT_CONFIG" == *"WIFI-NO"* ]]; then
+            disable_config_symbol() {
+              sed -i "/^CONFIG_$1=.*/d; /^# CONFIG_$1 is not set$/d" .config
+              echo "# CONFIG_$1 is not set" >> .config
+            }
+
             for SYMBOL in \
               ATH11K_NSS_SUPPORT \
               ATH11K_NSS_MESH_SUPPORT \
@@ -219,7 +224,7 @@ jobs:
               PACKAGE_wpad \
               PACKAGE_wpad-basic-mbedtls \
               PACKAGE_wpad-openssl; do
-              ./scripts/config --disable "$SYMBOL"
+              disable_config_symbol "$SYMBOL"
             done
             echo "WIFI-NO wireless packages forced off after defconfig."
           fi
