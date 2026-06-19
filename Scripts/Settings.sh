@@ -51,7 +51,6 @@ if [ -n "$WRT_PACKAGE" ]; then
 fi
 
 # 高通平台调整
-DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
 IS_WIFI_NO=0
 WRT_CONFIG_LC="${WRT_CONFIG,,}"
 if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
@@ -79,12 +78,21 @@ EOF
     if [[ "$WRT_CONFIG_LC" == *"wifi-no"* ]]; then
         IS_WIFI_NO=1
         cat <<'EOF' >> ./.config
+# CONFIG_ATH11K_NSS_SUPPORT is not set
+# CONFIG_ATH11K_NSS_MESH_SUPPORT is not set
+# CONFIG_PACKAGE_MAC80211_NSS_SUPPORT is not set
+# CONFIG_NSS_DRV_WIFIOFFLOAD_ENABLE is not set
+# CONFIG_NSS_DRV_WIFI_EXT_VDEV_ENABLE is not set
+# CONFIG_NSS_DRV_WIFI_MESH_ENABLE is not set
 # CONFIG_PACKAGE_kmod-ath is not set
 # CONFIG_PACKAGE_kmod-ath11k is not set
 # CONFIG_PACKAGE_kmod-ath11k-ahb is not set
 # CONFIG_PACKAGE_kmod-ath11k-pci is not set
 # CONFIG_PACKAGE_kmod-cfg80211 is not set
 # CONFIG_PACKAGE_kmod-mac80211 is not set
+# CONFIG_PACKAGE_kmod-qca-nss-drv-wifi-meshmgr is not set
+# CONFIG_PACKAGE_ipq-wifi-jdcloud_re-ss-01 is not set
+# CONFIG_PACKAGE_wireless-regdb is not set
 # CONFIG_PACKAGE_ath11k-firmware-ipq6018 is not set
 # CONFIG_PACKAGE_ath11k-firmware-ipq6018-ddwrt is not set
 # CONFIG_PACKAGE_ath11k-firmware-qcn9074 is not set
@@ -94,8 +102,8 @@ EOF
 # CONFIG_PACKAGE_wpad-openssl is not set
 # CONFIG_PACKAGE_hostapd-common is not set
 EOF
-        find "$DTS_PATH" -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\).dtsi/ipq\1-nowifi.dtsi/g' {} +
-        echo "qualcommax set up nowifi successfully!"
+        find ./target/linux/qualcommax/ -type f \( -iname "*.dts" -o -iname "*.dtsi" \) ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\).dtsi/ipq\1-nowifi.dtsi/g' {} +
+        echo "qualcommax WiFi packages and DTS references disabled."
     fi
 fi
 

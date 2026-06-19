@@ -8,6 +8,7 @@ CONFIG_TARGET_qualcommax_ipq60xx=y
 # CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_glinet_gl-axt1800 is not set
 # CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_jdcloud_re-cs-02 is not set
 CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_jdcloud_re-ss-01=y
+CONFIG_TARGET_DEVICE_PACKAGES_qualcommax_ipq60xx_DEVICE_jdcloud_re-ss-01="-ath11k-firmware-ipq6018 -ath11k-firmware-ipq6018-ddwrt -ath11k-firmware-qcn9074 -ath11k-firmware-qcn9074-ddwrt -hostapd-common -ipq-wifi-jdcloud_re-ss-01 -kmod-ath -kmod-ath11k -kmod-ath11k-ahb -kmod-ath11k-pci -kmod-cfg80211 -kmod-mac80211 -kmod-qca-nss-drv-wifi-meshmgr -wireless-regdb -wpad -wpad-basic-mbedtls -wpad-openssl"
 # CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_link_nn6000-v1 is not set
 # CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_link_nn6000-v2 is not set
 # CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_linksys_mr7350 is not set
@@ -24,10 +25,19 @@ CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_jdcloud_re-ss-01=y
 # CONFIG_PACKAGE_kmod-ath11k-pci is not set
 # CONFIG_PACKAGE_kmod-cfg80211 is not set
 # CONFIG_PACKAGE_kmod-mac80211 is not set
+# CONFIG_PACKAGE_kmod-qca-nss-drv-wifi-meshmgr is not set
+# CONFIG_PACKAGE_ipq-wifi-jdcloud_re-ss-01 is not set
+# CONFIG_PACKAGE_wireless-regdb is not set
 # CONFIG_PACKAGE_ath11k-firmware-ipq6018 is not set
 # CONFIG_PACKAGE_ath11k-firmware-ipq6018-ddwrt is not set
 # CONFIG_PACKAGE_ath11k-firmware-qcn9074 is not set
 # CONFIG_PACKAGE_ath11k-firmware-qcn9074-ddwrt is not set
+# CONFIG_ATH11K_NSS_SUPPORT is not set
+# CONFIG_ATH11K_NSS_MESH_SUPPORT is not set
+# CONFIG_PACKAGE_MAC80211_NSS_SUPPORT is not set
+# CONFIG_NSS_DRV_WIFIOFFLOAD_ENABLE is not set
+# CONFIG_NSS_DRV_WIFI_EXT_VDEV_ENABLE is not set
+# CONFIG_NSS_DRV_WIFI_MESH_ENABLE is not set
 # CONFIG_PACKAGE_wpad is not set
 # CONFIG_PACKAGE_wpad-basic-mbedtls is not set
 # CONFIG_PACKAGE_wpad-openssl is not set
