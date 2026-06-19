@@ -198,6 +198,9 @@ jobs:
             disable_config_symbol() {
               sed -i "/^CONFIG_$1=.*/d; /^# CONFIG_$1 is not set$/d" .config
               echo "# CONFIG_$1 is not set" >> .config
+              if [ -f include/config/auto.conf ]; then
+                sed -i "/^CONFIG_$1=.*/d" include/config/auto.conf
+              fi
             }
 
             for SYMBOL in \
@@ -230,6 +233,35 @@ jobs:
             echo "WIFI-NO wireless packages forced off after defconfig."
             make defconfig -j$(nproc)
             echo "WIFI-NO config synchronized after wireless cleanup."
+            for SYMBOL in \
+              ATH11K_NSS_SUPPORT \
+              ATH11K_NSS_MESH_SUPPORT \
+              PACKAGE_MAC80211_NSS_SUPPORT \
+              NSS_DRV_WIFIOFFLOAD_ENABLE \
+              NSS_DRV_WIFI_EXT_VDEV_ENABLE \
+              NSS_DRV_WIFI_MESH_ENABLE \
+              PACKAGE_ath11k-firmware-ipq6018 \
+              PACKAGE_ath11k-firmware-ipq6018-ddwrt \
+              PACKAGE_ath11k-firmware-qcn9074 \
+              PACKAGE_ath11k-firmware-qcn9074-ddwrt \
+              PACKAGE_ipq-wifi-jdcloud_re-ss-01 \
+              PACKAGE_wireless-regdb \
+              PACKAGE_kmod-ath \
+              PACKAGE_kmod-ath11k \
+              PACKAGE_kmod-ath11k-ahb \
+              PACKAGE_kmod-ath11k-pci \
+              PACKAGE_kmod-cfg80211 \
+              PACKAGE_kmod-mac80211 \
+              PACKAGE_kmod-qcom-qmi-helpers \
+              PACKAGE_kmod-qca-nss-drv-wifi-meshmgr \
+              PACKAGE_hostapd-common \
+              PACKAGE_wpad \
+              PACKAGE_wpad-basic-mbedtls \
+              PACKAGE_wpad-openssl; do
+              disable_config_symbol "$SYMBOL"
+            done
+            [ -f include/config/auto.conf ] && touch include/config/auto.conf
+            echo "WIFI-NO wireless packages hard-disabled after synchronized defconfig."
           fi
 
           echo "===== final wireless-related config ====="
