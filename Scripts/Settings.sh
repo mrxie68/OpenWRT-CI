@@ -103,6 +103,11 @@ EOF
 # CONFIG_PACKAGE_hostapd-common is not set
 EOF
         find ./target/linux/qualcommax/ -type f \( -iname "*.dts" -o -iname "*.dtsi" \) ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\).dtsi/ipq\1-nowifi.dtsi/g' {} +
+        IPQ60XX_IMAGE_MK="./target/linux/qualcommax/image/ipq60xx.mk"
+        if [ -f "$IPQ60XX_IMAGE_MK" ]; then
+            sed -i '/^define Device\/jdcloud_re-ss-01$/,/^endef$/ s/^[[:space:]]*DEVICE_PACKAGES[[:space:]]*[:+]\?=.*/        DEVICE_PACKAGES := -kmod-ath -kmod-ath11k -kmod-ath11k-ahb -kmod-ath11k-pci -kmod-cfg80211 -kmod-mac80211 -ath11k-firmware-ipq6018 -ath11k-firmware-ipq6018-ddwrt -ath11k-firmware-qcn9074 -ath11k-firmware-qcn9074-ddwrt -ipq-wifi-jdcloud_re-ss-01 -wireless-regdb -wpad -wpad-basic-mbedtls -wpad-openssl -hostapd-common -kmod-qca-nss-drv-wifi-meshmgr/' "$IPQ60XX_IMAGE_MK"
+            echo "jdcloud_re-ss-01 device WiFi packages removed for WIFI-NO."
+        fi
         echo "qualcommax WiFi packages and DTS references disabled."
     fi
 fi
