@@ -142,10 +142,8 @@ REMOVE_LUCI_MENU_ENTRY() {
 	done
 }
 
-# 1. 隐藏“状态”栏中的“信道分析”
-if [ -d "../feeds/luci/modules/luci-mod-status/" ]; then
-	find ../feeds/luci/modules/luci-mod-status/ -type f -name "luci-mod-status-status.json" -exec sed -i '/channel_analysis/,/}/d' {} +
-fi
+# 1. 隐藏“状态”栏中的“信道分析”: /cgi-bin/luci/admin/status/channel_analysis
+REMOVE_LUCI_MENU_ENTRY "admin/status/channel_analysis" "status/channel_analysis"
 
 # 2. 隐藏“系统”栏中的“LED 配置”：/cgi-bin/luci/admin/system/leds
 REMOVE_LUCI_MENU_ENTRY "admin/system/leds" "system/leds"

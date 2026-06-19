@@ -2,9 +2,10 @@
 CONFIG_PACKAGE_luci-app-openclash=y
 #增加插件
 CONFIG_PACKAGE_luci-app-rclone=y
-CONFIG_PACKAGE_luci-app-tailscale=y
 CONFIG_PACKAGE_luci-app-lucky=y
 #删除插件
+CONFIG_PACKAGE_luci-app-tailscale=n
+CONFIG_PACKAGE_tailscale=n
 CONFIG_PACKAGE_luci-app-wol=n
 CONFIG_PACKAGE_luci-app-samba4=n
 CONFIG_PACKAGE_luci-app-gecoosac=n
