@@ -155,3 +155,8 @@ REMOVE_LUCI_MENU_ENTRY "admin/system/plugins" "system/plugins"
 
 # 4. 隐藏“网络”栏中的“网络诊断”
 REMOVE_LUCI_MENU_ENTRY "admin/network/diagnostics" "network/diagnostics"
+
+# Hide wireless menu only for no-WiFi builds: /cgi-bin/luci/admin/network/wireless
+if [[ "${WRT_CONFIG,,}" == *"wifi-no"* ]]; then
+	REMOVE_LUCI_MENU_ENTRY "admin/network/wireless" "network/wireless"
+fi
