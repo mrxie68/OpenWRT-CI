@@ -106,6 +106,10 @@ EOF
         IPQ60XX_IMAGE_MK="./target/linux/qualcommax/image/ipq60xx.mk"
         if [ -f "$IPQ60XX_IMAGE_MK" ]; then
             sed -i '/^define Device\/jdcloud_re-ss-01$/,/^endef$/ s/^[[:space:]]*DEVICE_PACKAGES[[:space:]]*[:+]\?=.*/        DEVICE_PACKAGES := -kmod-ath -kmod-ath11k -kmod-ath11k-ahb -kmod-ath11k-pci -kmod-cfg80211 -kmod-mac80211 -ath11k-firmware-ipq6018 -ath11k-firmware-ipq6018-ddwrt -ath11k-firmware-qcn9074 -ath11k-firmware-qcn9074-ddwrt -ipq-wifi-jdcloud_re-ss-01 -wireless-regdb -wpad -wpad-basic-mbedtls -wpad-openssl -hostapd-common -kmod-qca-nss-drv-wifi-meshmgr/' "$IPQ60XX_IMAGE_MK"
+            if awk '/^define Device\/jdcloud_re-ss-01$/ { in_device=1 } in_device && /^[[:space:]]*DEVICE_PACKAGES[[:space:]]*[:+]?=[[:space:]]*ipq-wifi-jdcloud_re-ss-01/ { bad=1 } in_device && /^endef$/ { in_device=0 } END { exit bad ? 0 : 1 }' "$IPQ60XX_IMAGE_MK"; then
+                echo "ERROR: jdcloud_re-ss-01 still has positive WiFi device packages in WIFI-NO build."
+                exit 1
+            fi
             echo "jdcloud_re-ss-01 device WiFi packages removed for WIFI-NO."
         fi
         echo "qualcommax WiFi packages and DTS references disabled."

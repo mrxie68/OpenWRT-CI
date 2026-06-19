@@ -198,6 +198,11 @@ jobs:
           grep -E '^(CONFIG_TARGET_DEVICE_PACKAGES_qualcommax_ipq60xx_DEVICE_jdcloud_re-ss-01|CONFIG_ATH11K_NSS|CONFIG_PACKAGE_MAC80211_NSS|CONFIG_PACKAGE_(ath11k-firmware-ipq6018|ath11k-firmware-ipq6018-ddwrt|ipq-wifi-jdcloud_re-ss-01|kmod-ath|kmod-ath11k|kmod-ath11k-ahb|kmod-ath11k-pci|kmod-cfg80211|kmod-mac80211|kmod-qca-nss-drv-wifi-meshmgr|wireless-regdb|wpad|wpad-basic-mbedtls|wpad-openssl|hostapd-common))' .config || true
           echo "========================================="
 
+          if [[ "$WRT_CONFIG" == *"WIFI-NO"* ]] && grep -Eq '^(CONFIG_ATH11K_NSS_SUPPORT|CONFIG_PACKAGE_MAC80211_NSS_SUPPORT|CONFIG_PACKAGE_(ath11k-firmware-ipq6018|ath11k-firmware-ipq6018-ddwrt|ipq-wifi-jdcloud_re-ss-01|kmod-ath|kmod-ath11k|kmod-ath11k-ahb|kmod-ath11k-pci|kmod-cfg80211|kmod-mac80211|kmod-qca-nss-drv-wifi-meshmgr|wireless-regdb|wpad|wpad-basic-mbedtls|wpad-openssl|hostapd-common))=(y|m)$' .config; then
+            echo "ERROR: WIFI-NO still selected wireless packages after defconfig."
+            exit 1
+          fi
+
       - name: Download Packages
         if: env.WRT_TEST != 'true'
         run: |
