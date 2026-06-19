@@ -90,6 +90,7 @@ EOF
 # CONFIG_PACKAGE_kmod-ath11k-pci is not set
 # CONFIG_PACKAGE_kmod-cfg80211 is not set
 # CONFIG_PACKAGE_kmod-mac80211 is not set
+# CONFIG_PACKAGE_kmod-qcom-qmi-helpers is not set
 # CONFIG_PACKAGE_kmod-qca-nss-drv-wifi-meshmgr is not set
 # CONFIG_PACKAGE_ipq-wifi-jdcloud_re-ss-01 is not set
 # CONFIG_PACKAGE_wireless-regdb is not set
