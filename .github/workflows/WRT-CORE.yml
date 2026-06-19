@@ -228,6 +228,8 @@ jobs:
               disable_config_symbol "$SYMBOL"
             done
             echo "WIFI-NO wireless packages forced off after defconfig."
+            make defconfig -j$(nproc)
+            echo "WIFI-NO config synchronized after wireless cleanup."
           fi
 
           echo "===== final wireless-related config ====="
@@ -235,7 +237,7 @@ jobs:
           echo "========================================="
 
           if [[ "$WRT_CONFIG" == *"WIFI-NO"* ]] && grep -Eq '^(CONFIG_ATH11K_NSS_SUPPORT|CONFIG_PACKAGE_MAC80211_NSS_SUPPORT|CONFIG_PACKAGE_(ath11k-firmware-ipq6018|ath11k-firmware-ipq6018-ddwrt|ipq-wifi-jdcloud_re-ss-01|kmod-ath|kmod-ath11k|kmod-ath11k-ahb|kmod-ath11k-pci|kmod-cfg80211|kmod-mac80211|kmod-qca-nss-drv-wifi-meshmgr|kmod-qcom-qmi-helpers|wireless-regdb|wpad|wpad-basic-mbedtls|wpad-openssl|hostapd-common))=(y|m)$' .config; then
-            echo "ERROR: WIFI-NO still selected wireless packages after defconfig."
+            echo "ERROR: WIFI-NO still selected wireless packages after synchronized defconfig."
             exit 1
           fi
 
