@@ -194,6 +194,36 @@ jobs:
 
           make defconfig -j$(nproc)
 
+          if [[ "$WRT_CONFIG" == *"WIFI-NO"* ]]; then
+            for SYMBOL in \
+              ATH11K_NSS_SUPPORT \
+              ATH11K_NSS_MESH_SUPPORT \
+              PACKAGE_MAC80211_NSS_SUPPORT \
+              NSS_DRV_WIFIOFFLOAD_ENABLE \
+              NSS_DRV_WIFI_EXT_VDEV_ENABLE \
+              NSS_DRV_WIFI_MESH_ENABLE \
+              PACKAGE_ath11k-firmware-ipq6018 \
+              PACKAGE_ath11k-firmware-ipq6018-ddwrt \
+              PACKAGE_ath11k-firmware-qcn9074 \
+              PACKAGE_ath11k-firmware-qcn9074-ddwrt \
+              PACKAGE_ipq-wifi-jdcloud_re-ss-01 \
+              PACKAGE_wireless-regdb \
+              PACKAGE_kmod-ath \
+              PACKAGE_kmod-ath11k \
+              PACKAGE_kmod-ath11k-ahb \
+              PACKAGE_kmod-ath11k-pci \
+              PACKAGE_kmod-cfg80211 \
+              PACKAGE_kmod-mac80211 \
+              PACKAGE_kmod-qca-nss-drv-wifi-meshmgr \
+              PACKAGE_hostapd-common \
+              PACKAGE_wpad \
+              PACKAGE_wpad-basic-mbedtls \
+              PACKAGE_wpad-openssl; do
+              ./scripts/config --disable "$SYMBOL"
+            done
+            echo "WIFI-NO wireless packages forced off after defconfig."
+          fi
+
           echo "===== final wireless-related config ====="
           grep -E '^(CONFIG_TARGET_DEVICE_PACKAGES_qualcommax_ipq60xx_DEVICE_jdcloud_re-ss-01|CONFIG_ATH11K_NSS|CONFIG_PACKAGE_MAC80211_NSS|CONFIG_PACKAGE_(ath11k-firmware-ipq6018|ath11k-firmware-ipq6018-ddwrt|ipq-wifi-jdcloud_re-ss-01|kmod-ath|kmod-ath11k|kmod-ath11k-ahb|kmod-ath11k-pci|kmod-cfg80211|kmod-mac80211|kmod-qca-nss-drv-wifi-meshmgr|wireless-regdb|wpad|wpad-basic-mbedtls|wpad-openssl|hostapd-common))' .config || true
           echo "========================================="
